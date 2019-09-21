@@ -529,7 +529,8 @@ public class Maze implements Serializable {
 
 	// METHOD
 	// Builds a random maze based on the probability and maze provided
-	private static char [][] buildMaze (double prob, char [][] maze) {
+	private static char [][] buildMaze (double prob, char [][] premadeMaze) {
+		char [][] maze = copyMaze(premadeMaze);
 		//int count = 0;
 		for (int i = 1; i < maze.length - 1; i += 1) {
 			for (int j = 1; j < maze[i].length - 1; j += 1) {
@@ -605,6 +606,34 @@ public class Maze implements Serializable {
 	// Generates a random maze
 	public static char [][] randomMaze () {
 		return randomMaze(0.4, 5, 30, true);
+	}
+
+	// METHOD
+	// Determines how much of the maze is open for a rectangular maze
+	public static float openRectangle (char [][] maze) {
+		float mazeSpace = (maze.length - 2) * (maze[0].length - 2);
+		float openSpace = 0;
+		for (int i = 0; i < maze.length; ++i) {
+			for (int j = 0; j < maze[i].length; ++j) {
+        if (maze[i][j] == ' ' || maze[i][j] == 'S' || maze[i][j] == 'F') {
+					++openSpace;
+				}
+			}
+		}
+		if (mazeSpace == 0) { return 0; }
+		return openSpace / mazeSpace;
+	}
+
+	// METHOD
+	// Copy a maze
+	public static char [][] copyMaze (char [][] source) {
+		char [][] maze = new char [source.length][source[0].length];
+		for (int i = 0; i < maze.length; ++i) {
+			for (int j = 0; j < maze[i].length; ++j) {
+				maze[i][j] = source[i][j];
+			}
+		}
+		return maze;
 	}
 
 	// METHOD
