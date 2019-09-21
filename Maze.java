@@ -11,9 +11,10 @@ import java.lang.Math;
 
 public class Maze implements Serializable {
 
-	private char [][] maze = new char [][] {{' '}};
-	private String direction;
-	private static final int MAX_NUM_OF_PATH = 1000;
+	private static final char EMPTY = ' ';
+	private static final char WALL = '#';
+	private static final char START = 'S';
+	private static final char FINISH = 'F';
 
 	// METHOD
 	// Converts a String array into a 2-dimentional char array
@@ -79,7 +80,7 @@ public class Maze implements Serializable {
 
 			for (int col = 0; col < maze[0].length; col += 1) {
 
-				if (path != null && (new Point (row, col)).inArray(path) && maze[row][col] == ' ') {
+				if (path != null && (new Point (row, col)).inArray(path) && maze[row][col] == EMPTY) {
 
 					mazeLayout += solutionMaze[row][col] + " ";
 
@@ -119,7 +120,7 @@ public class Maze implements Serializable {
 
 			for (int col = 0; col < maze[0].length; col += 1) {
 
-				if (maze[row][col] == 'S') {
+				if (maze[row][col] == START) {
 
 					return new Point(row, col);
 
@@ -143,7 +144,7 @@ public class Maze implements Serializable {
 
 			for (int col = 0; col < maze[0].length; col += 1) {
 
-				if (maze[row][col] == ' ' || maze[row][col] == 'S' || maze[row][col] == 'F') {
+				if (maze[row][col] == EMPTY || maze[row][col] == START || maze[row][col] == FINISH) {
 
 					openSpace += 1;
 
@@ -203,13 +204,13 @@ public class Maze implements Serializable {
 	// Recursively checks if the maze is possible
 	private static boolean isPossibleRecurse (int r, int c, char [][] maze, char [][] visited) {
 
-		if (maze[r][c] == 'F') {
+		if (maze[r][c] == FINISH) {
 
 			return true;
 
 		}
 
-		if (maze[r][c] == '#' || visited [r][c] == '*') {
+		if (maze[r][c] == WALL || visited [r][c] == '*') {
 
 			return false;
 
@@ -256,12 +257,12 @@ public class Maze implements Serializable {
 	// Provides the depth search path via recursion
 	private static Point [] getDepthPathRecurse (int r, int c, Point [] path, char [][] maze, char [][] visited) {
 
-		if (maze[r][c] == 'F') {
+		if (maze[r][c] == FINISH) {
 			path[arraySize(path)] = new Point(r, c);
 			return path;
 		}
 
-		if (maze[r][c] == '#' || visited [r][c] == '*') {
+		if (maze[r][c] == WALL || visited [r][c] == '*') {
 			return null;
 		}
 
@@ -354,7 +355,7 @@ public class Maze implements Serializable {
 				return null;
 			}
 
-			if (maze[currentLocation.getX()][currentLocation.getY()] == 'F') {
+			if (maze[currentLocation.getX()][currentLocation.getY()] == FINISH) {
 				path[arraySize(path) - 1] = currentLocation;
 				return path;
 			}
@@ -369,22 +370,22 @@ public class Maze implements Serializable {
 	// Used to check and add directions (used in getBreadthPathLoop())
 	private static Point [] addDirections (Point curLoc, Point [] path, char [][] maze, char [][] visited, ArrayBlockingQueue<Point> queue) {
 
-		if (maze[curLoc.getX() + 1][curLoc.getY()] != '#' && visited[curLoc.getX() + 1][curLoc.getY()] != '*') {
+		if (maze[curLoc.getX() + 1][curLoc.getY()] != WALL && visited[curLoc.getX() + 1][curLoc.getY()] != '*') {
 			queue.add(new Point(curLoc.getX() + 1, curLoc.getY(), curLoc));
 			if (arraySize(path) > 0) { path[arraySize(path) - 1] = new Point(curLoc.getX() + 1, curLoc.getY(), curLoc); }
 			visited[curLoc.getX() + 1][curLoc.getY()] = '*';
 		}
-		if (maze[curLoc.getX() - 1][curLoc.getY()] != '#' && visited[curLoc.getX() - 1][curLoc.getY()] != '*') {
+		if (maze[curLoc.getX() - 1][curLoc.getY()] != WALL && visited[curLoc.getX() - 1][curLoc.getY()] != '*') {
 			queue.add(new Point(curLoc.getX() - 1, curLoc.getY(), curLoc));
 			if (arraySize(path) > 0) { path[arraySize(path) - 1] = new Point(curLoc.getX() - 1, curLoc.getY(), curLoc); }
 			visited[curLoc.getX() - 1][curLoc.getY()] = '*';
 		}
-		if (maze[curLoc.getX()][curLoc.getY() + 1] != '#' && visited[curLoc.getX()][curLoc.getY() + 1] != '*') {
+		if (maze[curLoc.getX()][curLoc.getY() + 1] != WALL && visited[curLoc.getX()][curLoc.getY() + 1] != '*') {
 			queue.add(new Point(curLoc.getX(), curLoc.getY() + 1, curLoc));
 			if (arraySize(path) > 0) { path[arraySize(path) - 1] = new Point(curLoc.getX(), curLoc.getY() + 1, curLoc); }
 			visited[curLoc.getX()][curLoc.getY() + 1] = '*';
 		}
-		if (maze[curLoc.getX()][curLoc.getY() - 1] != '#' && visited[curLoc.getX()][curLoc.getY() - 1] != '*') {
+		if (maze[curLoc.getX()][curLoc.getY() - 1] != WALL && visited[curLoc.getX()][curLoc.getY() - 1] != '*') {
 			queue.add(new Point(curLoc.getX(), curLoc.getY() - 1, curLoc));
 			if (arraySize(path) > 0) { path[arraySize(path) - 1] = new Point(curLoc.getX(), curLoc.getY() - 1, curLoc); }
 			visited[curLoc.getX()][curLoc.getY() - 1] = '*';
@@ -496,9 +497,9 @@ public class Maze implements Serializable {
 
 		for (int i = 0; i < l; i += 1) {
 			for (int j = 0; j < w; j += 1) {
-				maze[i][j] = ' ';
-				if (i == 0 || i == maze.length - 1) { maze[i][j] = '#'; }
-				if (j == 0 || j == maze[i].length - 1) { maze[i][j] = '#'; }
+				maze[i][j] = EMPTY;
+				if (i == 0 || i == maze.length - 1) { maze[i][j] = WALL; }
+				if (j == 0 || j == maze[i].length - 1) { maze[i][j] = WALL; }
 			}
 		}
 
@@ -510,12 +511,12 @@ public class Maze implements Serializable {
 		if (sX == fX && sY == fY) { valid = false; }	// S and F must be different
 
 		if (!valid) {
-			maze[1][1] = 'S';
+			maze[1][1] = START;
 			return maze;
 		}
 
-		maze[sY][sX] = 'S';
-		maze[fY][fX] = 'F';
+		maze[sY][sX] = START;
+		maze[fY][fX] = FINISH;
 
 		return maze;
 
@@ -534,8 +535,8 @@ public class Maze implements Serializable {
 		//int count = 0;
 		for (int i = 1; i < maze.length - 1; i += 1) {
 			for (int j = 1; j < maze[i].length - 1; j += 1) {
-				if (Math.random() < prob && maze[i][j] != 'S' && maze[i][j] != 'F') {
-					maze[i][j] = '#';
+				if (Math.random() < prob && maze[i][j] != START && maze[i][j] != FINISH) {
+					maze[i][j] = WALL;
 					//count += 1;
 				}
 			}
@@ -615,7 +616,7 @@ public class Maze implements Serializable {
 		float openSpace = 0;
 		for (int i = 0; i < maze.length; ++i) {
 			for (int j = 0; j < maze[i].length; ++j) {
-        if (maze[i][j] == ' ' || maze[i][j] == 'S' || maze[i][j] == 'F') {
+        if (maze[i][j] == EMPTY || maze[i][j] == START || maze[i][j] == FINISH) {
 					++openSpace;
 				}
 			}
@@ -663,6 +664,8 @@ public class Maze implements Serializable {
 		information += "char [][]     randomMaze(double prob, boolean randomStartFinish)\n";
 		information += "char [][]     randomMaze(double prob)\n";
 		information += "char [][]     randomMaze()\n";
+		information += "float         openRectangle(char [][] maze)\n";
+		information += "char [][]     copyMaze(char [][] source)\n";
 		information += "String        info()";
 
 		return information;
