@@ -610,17 +610,9 @@ public class Maze implements Serializable {
 	// METHOD
 	// Determines how much of the maze is open for a rectangular maze
 	public static float openRectangle (char [][] maze) {
-		float mazeSpace = (maze.length - 2) * (maze[0].length - 2);
-		float openSpace = 0;
-		for (int i = 0; i < maze.length; ++i) {
-			for (int j = 0; j < maze[i].length; ++j) {
-        if (maze[i][j] == EMPTY || maze[i][j] == START || maze[i][j] == FINISH) {
-					++openSpace;
-				}
-			}
-		}
-		if (mazeSpace == 0) { return 0; }
-		return openSpace / mazeSpace;
+		float totalSpace = (maze.length - 2) * (maze[0].length - 2);
+		if (totalSpace == 0) { return 0; }
+		return mazeSpace(maze) / totalSpace;
 	}
 
 	// METHOD
