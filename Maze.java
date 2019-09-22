@@ -72,8 +72,6 @@ public class Maze implements Serializable {
 
 		String mazeLayout = "";
 
-		int location = 0;
-
 		char [][] solutionMaze = solutionToMaze(maze, path);
 
 		for (int row = 0; row < maze.length; row += 1) {
