@@ -8,6 +8,7 @@ Java:      SE8
 import java.io.Serializable;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.lang.Math;
+import java.util.Scanner;
 
 public class Maze implements Serializable {
 
@@ -509,8 +510,7 @@ public class Maze implements Serializable {
 		if (sX == fX && sY == fY) { valid = false; }	// S and F must be different
 
 		if (!valid) {
-			maze[1][1] = START;
-			return maze;
+			return null;
 		}
 
 		maze[sY][sX] = START;
@@ -628,12 +628,33 @@ public class Maze implements Serializable {
 	}
 
 	// METHOD
+	// Provide a method for user input
+	public static char [][] createCustom () {
+		Scanner input = new Scanner(System.in);
+		System.out.print("Length (vertical): ");
+		int length = input.nextInt();
+		System.out.print("Width (across): ");
+		int width = input.nextInt();
+		System.out.print("Start X: ");
+		int sX = input.nextInt();
+		System.out.print("Start Y: ");
+		int sY = input.nextInt();
+		System.out.print("Finish X: ");
+		int fX = input.nextInt();
+		System.out.print("Finish Y: ");
+		int fY = input.nextInt();
+		input.close();
+
+		return emptyMaze(length, width, sX, sY, fX, fY);
+	}
+
+	// METHOD
 	// Provides info on the maze components
 	public static String info () {
 		String information = "";
 
 		information += "=== MAZE CREATION ===\n";
-		information += "# - Wall, S - Start, F - Finish\n\n";
+		information += WALL + " - Wall, " + START + " - Start, " + FINISH + " - Finish\n\n";
 		information += "=== FUNCTIONALITY ===\n";
 		information += "All listed methods are static\n";
 		information += "String        layout(Point [] path, char [][] maze)\n";
@@ -656,6 +677,7 @@ public class Maze implements Serializable {
 		information += "char [][]     randomMaze()\n";
 		information += "float         openRectangle(char [][] maze)\n";
 		information += "char [][]     copyMaze(char [][] source)\n";
+		information += "char [][]     createCustom()\n";
 		information += "String        info()";
 
 		return information;

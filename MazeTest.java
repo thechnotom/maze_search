@@ -138,46 +138,49 @@ public class MazeTest {
 		*/
 
 		System.out.println(Maze.info() + "\n");
-                /*
+
 		Scanner input = new Scanner(System.in);
-		System.out.print("Size: ");
-		int max = input.nextInt();
 		System.out.print("Minimum Path Length: ");
 		int minPathLen = input.nextInt();
-                */
+
+		/*
+
 		//int max = 50;
-		char [][] randomMaze;
 		int max = 100;
-		int minPathLen = 0;
-		int maxTests = 1000;
 		//System.out.print("Maximum Tests: ");
 		//int maxTests = input.nextInt();
-		int count = 0;
-		int maxLengthFound = 0;
-		int pathLen;
-		int numOfPossibleMazes = 0;
 		char [][] premadeMaze = Maze.emptyMaze(50, 25, 5, 5, 15, 45);
 		//randomMaze = Maze.randomMaze(0.4, premadeMaze);
 		//System.out.println(Maze.layout(randomMaze));
 		//System.out.println("\nOpen space: " + Maze.openRectangle(randomMaze) * 100 + "% open");
 		//System.out.println(maze.layout(premadeMaze));
-		
+		*/
+
+		char [][] premadeMaze = Maze.createCustom();
+		if (premadeMaze == null) { System.out.println("Invalid S/F"); return; }
+		int length = premadeMaze[0].length - 2;
+		int width = premadeMaze.length - 2;
+
+		int maxTests = 1000;
+		int minPathLen = 0;
+		char [][] randomMaze;
+		int count = 0;
+		int maxLengthFound = 0;
+		int pathLen;
+		int numOfPossibleMazes = 0;
+
 		while (true) {
-			//System.out.println("Premade maze: " + Maze.openRectangle(premadeMaze) * 100);
 			count += 1;
-			System.out.print("Testing maze #" + count + "/" + maxTests + " (size: " + max + ")... ");
-			//randomMaze = maze.randomMaze(0.4, max, max, false);
+			System.out.print("Testing maze #" + count + "/" + maxTests + " (size: " + length + "x" + width + ")... ");
 			randomMaze = Maze.randomMaze(0.4, premadeMaze);
 			System.out.print("generated ");
 			System.out.print(String.format("(%.1f", Maze.openRectangle(randomMaze) * 100) +  "% open)... ");
-			//randomMaze = maze.emptyMaze (15, 5, 1, 1, 2, 123);
 			if (count >= maxTests) {
 				System.out.println("Unable to find a possible maze; count: " + count + "\n");
 				break;
 			}
 			System.out.print("testing possibility (" + numOfPossibleMazes + " successes)... ");
 			Point [] path = Maze.getBreadthPath(randomMaze);
-			//if (maze.isPossibleIter(randomMaze)) {
 			pathLen = 0;
 			if (path != null) {
 				System.out.print("passed... testing path length... ");
