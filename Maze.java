@@ -17,6 +17,12 @@ public class Maze implements Serializable {
 	private static final char START = 'S';
 	private static final char FINISH = 'F';
 
+	// Getter methods
+	public static char getEMPTY ()  { return EMPTY; }
+	public static char getWALL ()   { return WALL; }
+	public static char getSTART ()  { return START; }
+	public static char getFINISH () { return FINISH; }
+
 	// METHOD
 	// Converts a String array into a 2-dimentional char array
 	public static char [][] convert (String [] array) {
