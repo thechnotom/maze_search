@@ -162,7 +162,7 @@ public class MazeTest {
 		int width = premadeMaze.length - 2;
 
 		int maxTests = 1000;
-		int minPathLen = 0;
+		//int minPathLen = 0;
 		char [][] randomMaze;
 		int count = 0;
 		int maxLengthFound = 0;

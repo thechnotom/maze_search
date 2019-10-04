@@ -14,7 +14,7 @@ Maze.java
 MazeTest.java
 Point.java
 
-=== Methods ===
+=== Methods for Maze ===
 
 All listed methods are static
 
@@ -41,3 +41,7 @@ char [][]     randomMaze()
 float         openRectangle(char [][] maze)
 char [][]     copyMaze(char [][] source)
 String        info()
+
+=== Methods for MazeInst ===
+
+To be listed
