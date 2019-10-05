@@ -144,7 +144,6 @@ public class MazeTest {
 		int maxTests = input.nextInt();
 		System.out.print("Minimum Path Length: ");
 		int minPathLen = input.nextInt();
-		input.close();
 
 		/*
 
@@ -160,6 +159,7 @@ public class MazeTest {
 		*/
 
 		char [][] premadeMaze = Maze.createCustom();
+		input.close();  // causes error if it is before the previous line
 		if (premadeMaze == null) { System.out.println("Invalid S/F"); return; }
 		int length = premadeMaze[0].length - 2;
 		int width = premadeMaze.length - 2;
