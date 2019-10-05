@@ -26,89 +26,55 @@ public class Maze implements Serializable {
 	// METHOD
 	// Converts a String array into a 2-dimentional char array
 	public static char [][] convert (String [] array) {
-
 		char [][] maze = new char [array.length][array[0].length()];
 
 		for (int row = 0; row < array.length; row += 1) {
-
 			for (int col = 0; col < array[0].length(); col += 1) {
-
 				maze[row][col] = array[row].charAt(col);
-
 			}
-
 		}
-
 		return maze;
-
 	}
 
 	// METHOD
 	// Converts a 2-dimentional char array into a String array
 	public static String [] convert (char [][] array) {
-
 		String [] maze = new String [array.length];
 
 		for (int row = 0; row < array.length; row += 1) {
-
 			for (int col = 0; col < array[0].length; col += 1) {
-
 				if (col == 0) {
-
 					maze[row] = Character.toString(array[row][col]);
-
 				}
-
 				else {
-
 					maze[row] += array[row][col];
-
 				}
-
 			}
-
 		}
-
 		return maze;
-
 	}
 
 	// METHOD
 	// Provides a layout of the maze
 	public static String layout (Point [] path, char [][] maze) {
-
 		String mazeLayout = "";
-
 		char [][] solutionMaze = solutionToMaze(maze, path);
 
 		for (int row = 0; row < maze.length; row += 1) {
-
 			for (int col = 0; col < maze[0].length; col += 1) {
-
 				if (path != null && (new Point (row, col)).inArray(path) && maze[row][col] == EMPTY) {
-
 					mazeLayout += solutionMaze[row][col] + " ";
-
 				}
-
 				else {
-
 					mazeLayout += maze[row][col] + " ";
-
 				}
-
 			}
-
 			if (row != maze.length - 1) {
-
 				mazeLayout += "\n";
-
 			}
-
 		}
 
 		return mazeLayout;
-
 	}
 
 	// METHOD
@@ -122,65 +88,41 @@ public class Maze implements Serializable {
 	private static Point locateStart (char [][] maze) {
 
 		for (int row = 0; row < maze.length; row += 1) {
-
 			for (int col = 0; col < maze[0].length; col += 1) {
-
 				if (maze[row][col] == START) {
-
 					return new Point(row, col);
-
 				}
-
 			}
-
 		}
-
 		return null;
-
 	}
 
 	// METHOD
 	// Gets the traversable space within a maze
 	private static int mazeSpace (char [][] maze) {
-
 		int openSpace = 0;
 
 		for (int row = 0; row < maze.length; row += 1) {
-
 			for (int col = 0; col < maze[0].length; col += 1) {
-
 				if (maze[row][col] == EMPTY || maze[row][col] == START || maze[row][col] == FINISH) {
-
 					openSpace += 1;
-
 				}
-
 			}
-
 		}
-
 		return openSpace;
-
 	}
 
 	// METHOD
 	// Gets the used length of a Point array
 	private static int arraySize (Point [] array) {
-
 		int size = 0;
 
 		for (int loc = 0; loc < array.length; loc += 1) {
-
 			if (array[loc] != null) {
-
 				size += 1;
-
 			}
-
 		}
-
 		return size;
-
 	}
 
 	// METHOD
@@ -210,15 +152,11 @@ public class Maze implements Serializable {
 	private static boolean isPossibleRecurse (int r, int c, char [][] maze, char [][] visited) {
 
 		if (maze[r][c] == FINISH) {
-
 			return true;
-
 		}
 
 		if (maze[r][c] == WALL || visited [r][c] == '*') {
-
 			return false;
-
 		}
 
 		visited[r][c] = '*';
@@ -242,9 +180,7 @@ public class Maze implements Serializable {
 		visited = new char [maze.length][maze[0].length];
 
 		if (path == null) {
-
 			return null;
-
 		}
 
 		// Reverse the Point array
