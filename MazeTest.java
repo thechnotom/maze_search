@@ -140,8 +140,11 @@ public class MazeTest {
 		System.out.println(Maze.info() + "\n");
 
 		Scanner input = new Scanner(System.in);
+		System.out.print("Number of tries: ");
+		int maxTests = input.nextInt();
 		System.out.print("Minimum Path Length: ");
 		int minPathLen = input.nextInt();
+		input.close();
 
 		/*
 
@@ -161,7 +164,7 @@ public class MazeTest {
 		int length = premadeMaze[0].length - 2;
 		int width = premadeMaze.length - 2;
 
-		int maxTests = 1000;
+		//int maxTests = 1000;
 		//int minPathLen = 0;
 		char [][] randomMaze;
 		int count = 0;
