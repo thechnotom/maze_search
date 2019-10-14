@@ -5,12 +5,13 @@ Class:     Maze
 Java:      SE8
 */
 
-import java.io.Serializable;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.lang.Math;
 import java.util.Scanner;
+import java.io.*;
+import java.util.ArrayList;
 
-public class Maze implements Serializable {
+public class Maze {
 
 	private static final char EMPTY = ' ';
 	private static final char WALL = '#';
@@ -22,6 +23,69 @@ public class Maze implements Serializable {
 	public static char getWALL ()   { return WALL; }
 	public static char getSTART ()  { return START; }
 	public static char getFINISH () { return FINISH; }
+
+	// METHOD
+	// Imports a maze from a file as String[]
+	public static String[] importMaze (String filename) {
+		ArrayList<String> data = new ArrayList<String>();
+		BufferedReader in = null;
+
+		try {
+			in = new BufferedReader(new FileReader(filename));
+			String line = in.readLine();
+			while (line != null) {
+				data.add(line);
+				line = in.readLine();
+			}
+			in.close();
+      return data.toArray(new String[0]);
+		}
+		catch (FileNotFoundException e) {
+			System.out.println("Unable to fine file: \"" + filename + "\"");
+		}
+		catch (IOException e) {
+			System.out.println("Caught IO Exception");
+		}
+		return null;
+	}
+
+	// METHOD
+	// Exports a String[] maze to a file
+	public static boolean exportMaze (String filename, String[] maze) {
+		try {
+			Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filename), "utf-8"));
+			for (int i = 0; i < maze.length; ++i) {
+				writer.write(maze[i] + "\n");
+			}
+			writer.close();
+			return true;
+		}
+		catch (IOException e) {
+			System.out.println("Caught IOException");
+		}
+		return false;
+	}
+
+	// METHOD
+	// Exports a char[][] maze to a file
+	public static boolean exportMaze (String filename, char[][] maze) {
+		return exportMaze(filename, convert(maze));
+	}
+
+	// METHOD
+	// Exports a String created by a layout method
+	public static boolean exportMaze (String filename, String layout) {
+		try {
+			Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filename), "utf-8"));
+			writer.write(layout);
+			writer.close();
+			return true;
+		}
+		catch (IOException e) {
+			System.out.println("Caught IOException");
+		}
+		return false;
+	}
 
 	// METHOD
 	// Converts a String array into a 2-dimentional char array
@@ -56,17 +120,19 @@ public class Maze implements Serializable {
 
 	// METHOD
 	// Provides a layout of the maze
-	public static String layout (Point [] path, char [][] maze) {
+	public static String layout (Point [] path, char [][] maze, boolean addSpace) {
 		String mazeLayout = "";
 		char [][] solutionMaze = solutionToMaze(maze, path);
 
 		for (int row = 0; row < maze.length; row += 1) {
 			for (int col = 0; col < maze[0].length; col += 1) {
 				if (path != null && (new Point (row, col)).inArray(path) && maze[row][col] == EMPTY) {
-					mazeLayout += solutionMaze[row][col] + " ";
+					mazeLayout += solutionMaze[row][col];
+					if (addSpace) { mazeLayout += " "; }
 				}
 				else {
-					mazeLayout += maze[row][col] + " ";
+					mazeLayout += maze[row][col];
+					if (addSpace) { mazeLayout += " "; }
 				}
 			}
 			if (row != maze.length - 1) {
@@ -79,8 +145,35 @@ public class Maze implements Serializable {
 
 	// METHOD
 	// Provides a layout of the maze
+	public static String layout (Point [] path, char [][] maze) {
+		return layout (path, maze, true);
+	}
+
+	// METHOD
+	// Provides a layout of the maze
 	public static String layout (char [][] maze) {
 		return layout(null, maze);
+	}
+
+	// METHOD
+	// Convert a layout String into an array of Strings
+	public static String[] convertLayout (String layout) {
+		ArrayList<String> data = new ArrayList<String>();
+		int index = 0;
+		String line = "";
+		char currChar;
+		while (index < layout.length()) {
+			while (index < layout.length()) {
+				currChar = layout.charAt(index);
+				if (currChar == '\n') { break; }
+				line += currChar;
+				++index;
+			}
+			data.add(line);
+			line = "";
+			++index;
+		}
+		return data.toArray(new String[0]);
 	}
 
 	// METHOD

@@ -53,10 +53,17 @@ class MazeInstTest {
 					"#         #              # # #   #   #          F#",
 					"##################################################"};
 
-    MazeInst myMaze = new MazeInst(testMaze);
+		MazeInst myMaze = new MazeInst(testMaze);
+		
+		//MazeInst myMaze = new MazeInst("testMaze.txt");
 
-    System.out.println(myMaze.layoutSolution(true) + "\n");
-    System.out.println("Breadth path length: " + myMaze.pathLength(true));
+    System.out.println(myMaze.layoutSolution(true, true) + "\n");
+		System.out.println("Breadth path length: " + myMaze.pathLength(true));
+		System.out.println("\n\nExporting maze to file");
+		boolean success = myMaze.exportMaze("myMaze.txt", false);
+		boolean successSol = myMaze.exportSolutionMaze("myMazeSolution.txt", true, true);
+		System.out.println("Success: " + success);
+		System.out.println("Success Solution: " + successSol);
 
   }
 }

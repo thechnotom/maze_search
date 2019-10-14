@@ -23,6 +23,10 @@ class MazeInst {
     setMaze(maze);
   }
 
+  public MazeInst (String filename) {
+    setMaze(filename);
+  }
+
   public char [][] getCharMaze ()   { return this.maze; }
   public String [] getStringMaze () { return Maze.convert(this.maze); }
   public Point []  getSolution (boolean isBreadth) {
@@ -40,17 +44,25 @@ class MazeInst {
     setMaze(Maze.convert(maze));
   }
 
+  public void setMaze (String filename) {
+    setMaze(Maze.importMaze(filename));
+  }
+
+  public boolean exportMaze (String filename, boolean withSpace) {
+    return Maze.exportMaze(filename, Maze.layout(null, this.maze, withSpace));
+  }
+
+  public boolean exportSolutionMaze (String filename, boolean isBreadth, boolean withSpace) {
+    return Maze.exportMaze(filename, Maze.convertLayout(layoutSolution(isBreadth, withSpace)));
+  }
+
   public String layout () {
     return Maze.layout(this.maze);
   }
 
-  public String layoutSolution (boolean isBreadth) {
-    if (isBreadth) { return Maze.layout(this.breadthSolution, this.maze); }
-    return Maze.layout(this.depthSolution, this.maze);
-  }
-
-  public String layoutSolution () {
-    return layoutSolution (true);
+  public String layoutSolution (boolean isBreadth, boolean withSpace) {
+    if (isBreadth) { return Maze.layout(this.breadthSolution, this.maze, withSpace); }
+    return Maze.layout(this.depthSolution, this.maze, withSpace);
   }
 
   public boolean isPossible (boolean iterative) {
