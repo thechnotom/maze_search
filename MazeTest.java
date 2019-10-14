@@ -163,6 +163,8 @@ public class MazeTest {
 		if (premadeMaze == null) { System.out.println("Invalid S/F"); return; }
 		int length = premadeMaze[0].length - 2;
 		int width = premadeMaze.length - 2;
+	
+		char[][] closestMaze;
 
 		//int maxTests = 1000;
 		//int minPathLen = 0;
@@ -172,6 +174,8 @@ public class MazeTest {
 		int pathLen;
 		int numOfPossibleMazes = 0;
 
+    closestMaze = premadeMaze;
+
 		while (true) {
 			count += 1;
 			System.out.print("Testing maze #" + count + "/" + maxTests + " (size: " + length + "x" + width + ")... ");
@@ -180,6 +184,7 @@ public class MazeTest {
 			System.out.print(String.format("(%.1f", Maze.openRectangle(randomMaze) * 100) +  "% open)... ");
 			if (count >= maxTests) {
 				System.out.println("Unable to find a possible maze; count: " + count + "\n");
+				randomMaze = closestMaze;
 				break;
 			}
 			System.out.print("testing possibility (" + numOfPossibleMazes + " successes)... ");
@@ -191,6 +196,13 @@ public class MazeTest {
 				pathLen = Maze.pathLength(path);
 				if (pathLen > maxLengthFound) {
 					maxLengthFound = pathLen;
+					closestMaze = new char[randomMaze.length][randomMaze[0].length];
+					for (int i = 0; i < randomMaze.length - 1; ++i) {
+						for (int j = 0; j < randomMaze[i].length - 1; ++j) {
+							closestMaze[i][j] = randomMaze[i][j];
+						}
+					}
+					closestMaze = randomMaze;
 				}
 				if (pathLen >= minPathLen) {
 					System.out.print("passed ");
@@ -216,6 +228,10 @@ public class MazeTest {
 		//System.out.println("Depth path length: " + maze.pathLength(depthPath));
 
 		//System.out.println(maze.layout(depthPath, randomMaze) + "\n");
+
+		if (maxLengthFound < minPathLen) {
+		  System.out.println("\nFailed to find maze with a valid path length");
+		}
     
 	}
 }
